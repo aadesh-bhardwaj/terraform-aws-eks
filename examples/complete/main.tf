@@ -227,16 +227,3 @@ module "managed_node_group_addons" {
     bottlerocket_eks_enable_control_container     = true
   }
 }
-
-module "fargate_profle" {
-  source               = "squareops/eks/aws//modules/fargate-profile"
-  depends_on           = [module.vpc, module.eks]
-  fargate_profile_name = local.fargate_profile_name
-  fargate_subnet_ids   = [module.vpc.vpc_private_subnets[0]]
-  environment          = local.environment
-  eks_cluster_name     = module.eks.eks_cluster_name
-  fargate_namespace    = "fargate"
-  k8s_labels = {
-    "App-Services" = "app"
-  }
-}
