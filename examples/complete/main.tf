@@ -4,7 +4,7 @@ locals {
   kms_key_rotation_enabled             = true
   is_enabled                           = true
   multi_region                         = false
-  environment                          = var.environent
+  environment                          = var.environment
   name                                 = "sqops"
   auto_assign_public_ip                = true
   vpc_availability_zones               = ["us-east-2a", "us-east-2b"]
