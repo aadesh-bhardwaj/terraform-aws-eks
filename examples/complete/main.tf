@@ -84,7 +84,7 @@ module "kms" {
       principals = [
         {
           type        = "Service"
-          identifiers = ["logs.${locals.region}.amazonaws.com"]
+          identifiers = ["logs.${local.region}.amazonaws.com"]
         }
       ]
     }
@@ -115,7 +115,7 @@ module "vpc" {
   source                                          = "squareops/vpc/aws"
   version                                         = "3.4.1"
   name                                            = local.name
-  region                                          = locals.region
+  region                                          = local.region
   vpc_cidr                                        = local.vpc_cidr
   environment                                     = local.environment
   vpn_key_pair_name                               = local.vpn_server_enabled ? module.key_pair_vpn[0].key_pair_name : null
