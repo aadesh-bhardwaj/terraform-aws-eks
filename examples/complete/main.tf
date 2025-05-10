@@ -140,7 +140,7 @@ module "vpc" {
 module "eks" {
   source               = "squareops/eks/aws"
   version              = "5.4.4"
-  access_entry_enabled = true
+  access_entry_enabled = false
   access_entries = {
     "example" = {
       kubernetes_groups = []
