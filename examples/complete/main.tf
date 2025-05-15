@@ -46,52 +46,52 @@ locals {
 #   current_identity            = data.aws_caller_identity.current.arn
 #   enable_bottlerocket_ami     = false
 
-# data "aws_caller_identity" "current" {}
+data "aws_caller_identity" "current" {}
 
-# module "kms" {
-#   source                  = "terraform-aws-modules/kms/aws"
-#   version                 = "3.1.0"
-#   deletion_window_in_days = var.kms_deletion_window_in_days
-#   description             = "Symmetric Key to Enable Encryption at rest using KMS services."
-#   enable_key_rotation     = var.kms_key_rotation_enabled
-#   is_enabled              = var.is_enabled
-#   key_usage               = "ENCRYPT_DECRYPT"
-#   multi_region            = var.multi_region
+module "kms" {
+  source                  = "terraform-aws-modules/kms/aws"
+  version                 = "3.1.0"
+  deletion_window_in_days = var.kms_deletion_window_in_days
+  description             = "Symmetric Key to Enable Encryption at rest using KMS services."
+  enable_key_rotation     = var.kms_key_rotation_enabled
+  is_enabled              = var.is_enabled
+  key_usage               = "ENCRYPT_DECRYPT"
+  multi_region            = var.multi_region
 
-#   enable_default_policy                  = true
-#   key_owners                             = [data.aws_caller_identity.current.arn]
-#   key_administrators                     = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
-#   key_users                              = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
-#   key_service_users                      = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
-#   key_symmetric_encryption_users         = [data.aws_caller_identity.current.arn]
-#   key_hmac_users                         = [data.aws_caller_identity.current.arn]
-#   key_asymmetric_public_encryption_users = [data.aws_caller_identity.current.arn]
-#   key_asymmetric_sign_verify_users       = [data.aws_caller_identity.current.arn]
+  enable_default_policy                  = true
+  key_owners                             = [data.aws_caller_identity.current.arn]
+  key_administrators                     = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
+  key_users                              = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
+  key_service_users                      = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
+  key_symmetric_encryption_users         = [data.aws_caller_identity.current.arn]
+  key_hmac_users                         = [data.aws_caller_identity.current.arn]
+  key_asymmetric_public_encryption_users = [data.aws_caller_identity.current.arn]
+  key_asymmetric_sign_verify_users       = [data.aws_caller_identity.current.arn]
 
-#   key_statements = [
-#     {
-#       sid    = "AllowCloudWatchLogsEncryption"
-#       effect = "Allow"
-#       actions = [
-#         "kms:Encrypt*",
-#         "kms:Decrypt*",
-#         "kms:ReEncrypt*",
-#         "kms:GenerateDataKey*",
-#         "kms:Describe*"
-#       ]
-#       resources = ["*"]
-#       principals = [
-#         {
-#           type        = "Service"
-#           identifiers = ["logs.${var.region}.amazonaws.com"]
-#         }
-#       ]
-#     }
-#   ]
+  key_statements = [
+    {
+      sid    = "AllowCloudWatchLogsEncryption"
+      effect = "Allow"
+      actions = [
+        "kms:Encrypt*",
+        "kms:Decrypt*",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:Describe*"
+      ]
+      resources = ["*"]
+      principals = [
+        {
+          type        = "Service"
+          identifiers = ["logs.${var.region}.amazonaws.com"]
+        }
+      ]
+    }
+  ]
 
-#   aliases                 = ["${var.name}-KMS"]
-#   aliases_use_name_prefix = true
-# }
+  aliases                 = ["${var.name}-KMS"]
+  aliases_use_name_prefix = true
+}
 
 # module "key_pair_vpn" {
 #   source             = "squareops/keypair/aws"
@@ -133,7 +133,7 @@ module "vpc" {
   flow_log_max_aggregation_interval               = 60
   flow_log_cloudwatch_log_group_skip_destroy      = false
   flow_log_cloudwatch_log_group_retention_in_days = 90
-  flow_log_cloudwatch_log_group_kms_key_arn       = var.kms_key_id
+  flow_log_cloudwatch_log_group_kms_key_arn       = module.kms.key_arn
 }
 
 module "eks" {
@@ -146,7 +146,7 @@ module "eks" {
   name                                     = var.name
   vpc_id                                   = module.vpc.vpc_id
   environment                              = var.environment
-  kms_key_arn                              = var.kms_key_id
+  kms_key_arn                              = module.kms.key_arn
   cluster_version                          = var.cluster_version
   cluster_log_types                        = var.cluster_log_types
   vpc_private_subnet_ids                   = module.vpc.private_subnets
@@ -179,7 +179,7 @@ module "managed_node_group_addons" {
   managed_ng_desired_size     = 2
   vpc_subnet_ids              = [module.vpc.private_subnets[0]]
   environment                 = var.environment
-  managed_ng_kms_key_arn      = var.kms_key_arn
+  managed_ng_kms_key_arn      = module.kms.key_arn
   managed_ng_capacity_type    = var.managed_ng_capacity_type
   managed_ng_ebs_volume_size  = var.ebs_volume_size
   managed_ng_ebs_volume_type  = "gp3"

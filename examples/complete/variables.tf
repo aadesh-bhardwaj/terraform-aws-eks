@@ -187,7 +187,7 @@ variable "ebs_volume_size" {
 variable "launch_template_name" {
   description = "Name for the launch template"
   type        = string
-  default     = "launch-template-name"
+  default     = "lt-ba64d49967"
 }
 
 variable "aws_managed_node_group_arch" {
