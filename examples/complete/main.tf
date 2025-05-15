@@ -111,13 +111,15 @@ locals {
 # }
 
 module "vpc" {
-  source                                          = "squareops/vpc/aws"
-  version                                         = "3.4.1"
-  name                                            = var.name
-  region                                          = var.region
-  vpc_cidr                                        = var.vpc_cidr
-  environment                                     = var.environment
-  vpn_key_pair_name                               = var.vpn_server_enabled ? module.key_pair_vpn[0].key_pair_name : null
+  source             = "squareops/vpc/aws"
+  version            = "3.4.1"
+  name               = var.name
+  region             = var.region
+  vpc_cidr           = var.vpc_cidr
+  environment        = var.environment
+  vpn_server_enabled = var.vpn_server_enabled
+  # vpn_server_instance_type                        = var.vpn_server_instance_type
+  # vpn_key_pair_name                               = var.vpn_server_enabled ? null : null
   availability_zones                              = var.vpc_availability_zones
   intra_subnet_enabled                            = var.vpc_intra_subnet_enabled
   public_subnet_enabled                           = var.vpc_public_subnet_enabled
@@ -125,15 +127,13 @@ module "vpc" {
   private_subnet_enabled                          = var.vpc_private_subnet_enabled
   one_nat_gateway_per_az                          = var.vpc_one_nat_gateway_per_az
   database_subnet_enabled                         = var.vpc_database_subnet_enabled
-  vpn_server_enabled                              = var.vpn_server_enabled
-  vpn_server_instance_type                        = var.vpn_server_instance_type
   vpc_s3_endpoint_enabled                         = var.vpc_s3_endpoint_enabled
   vpc_ecr_endpoint_enabled                        = var.vpc_ecr_endpoint_enabled
   flow_log_enabled                                = var.vpc_flow_log_enabled
   flow_log_max_aggregation_interval               = 60
   flow_log_cloudwatch_log_group_skip_destroy      = false
   flow_log_cloudwatch_log_group_retention_in_days = 90
-  flow_log_cloudwatch_log_group_kms_key_arn       = module.kms.key_arn
+  flow_log_cloudwatch_log_group_kms_key_arn       = var.kms_key_arn
 }
 
 module "eks" {
