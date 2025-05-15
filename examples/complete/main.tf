@@ -58,13 +58,13 @@ module "kms" {
   key_usage               = "ENCRYPT_DECRYPT"
   multi_region            = var.multi_region
 
-  enable_default_policy  = true
-  key_owners             = [data.aws_caller_identity.current.arn]
-  key_administrators     = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
-  key_users              = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
-  key_service_users      = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
-  key_symmetric_encryption_users = [data.aws_caller_identity.current.arn]
-  key_hmac_users                = [data.aws_caller_identity.current.arn]
+  enable_default_policy                  = true
+  key_owners                             = [data.aws_caller_identity.current.arn]
+  key_administrators                     = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
+  key_users                              = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
+  key_service_users                      = var.kms_user == null ? ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling", "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS", data.aws_caller_identity.current.arn] : var.kms_user
+  key_symmetric_encryption_users         = [data.aws_caller_identity.current.arn]
+  key_hmac_users                         = [data.aws_caller_identity.current.arn]
   key_asymmetric_public_encryption_users = [data.aws_caller_identity.current.arn]
   key_asymmetric_sign_verify_users       = [data.aws_caller_identity.current.arn]
 
@@ -111,25 +111,25 @@ module "key_pair_eks" {
 }
 
 module "vpc" {
-  source                      = "squareops/vpc/aws"
-  version                     = "3.4.1"
-  name                        = var.name
-  region                      = var.region
-  vpc_cidr                    = var.vpc_cidr
-  environment                 = var.environment
-  vpn_key_pair_name           = var.vpn_server_enabled ? module.key_pair_vpn[0].key_pair_name : null
-  availability_zones          = var.vpc_availability_zones
-  intra_subnet_enabled        = var.vpc_intra_subnet_enabled
-  public_subnet_enabled       = var.vpc_public_subnet_enabled
-  auto_assign_public_ip       = var.auto_assign_public_ip
-  private_subnet_enabled      = var.vpc_private_subnet_enabled
-  one_nat_gateway_per_az      = var.vpc_one_nat_gateway_per_az
-  database_subnet_enabled     = var.vpc_database_subnet_enabled
-  vpn_server_enabled          = var.vpn_server_enabled
-  vpn_server_instance_type    = var.vpn_server_instance_type
-  vpc_s3_endpoint_enabled     = var.vpc_s3_endpoint_enabled
-  vpc_ecr_endpoint_enabled    = var.vpc_ecr_endpoint_enabled
-  flow_log_enabled            = var.vpc_flow_log_enabled
+  source                                          = "squareops/vpc/aws"
+  version                                         = "3.4.1"
+  name                                            = var.name
+  region                                          = var.region
+  vpc_cidr                                        = var.vpc_cidr
+  environment                                     = var.environment
+  vpn_key_pair_name                               = var.vpn_server_enabled ? module.key_pair_vpn[0].key_pair_name : null
+  availability_zones                              = var.vpc_availability_zones
+  intra_subnet_enabled                            = var.vpc_intra_subnet_enabled
+  public_subnet_enabled                           = var.vpc_public_subnet_enabled
+  auto_assign_public_ip                           = var.auto_assign_public_ip
+  private_subnet_enabled                          = var.vpc_private_subnet_enabled
+  one_nat_gateway_per_az                          = var.vpc_one_nat_gateway_per_az
+  database_subnet_enabled                         = var.vpc_database_subnet_enabled
+  vpn_server_enabled                              = var.vpn_server_enabled
+  vpn_server_instance_type                        = var.vpn_server_instance_type
+  vpc_s3_endpoint_enabled                         = var.vpc_s3_endpoint_enabled
+  vpc_ecr_endpoint_enabled                        = var.vpc_ecr_endpoint_enabled
+  flow_log_enabled                                = var.vpc_flow_log_enabled
   flow_log_max_aggregation_interval               = 60
   flow_log_cloudwatch_log_group_skip_destroy      = false
   flow_log_cloudwatch_log_group_retention_in_days = 90
@@ -137,24 +137,24 @@ module "vpc" {
 }
 
 module "eks" {
-  source                                = "squareops/eks/aws"
-  version                               = "5.4.4"
-  access_entry_enabled                  = false
-  access_entries                        = {}
+  source                                   = "squareops/eks/aws"
+  version                                  = "5.4.4"
+  access_entry_enabled                     = false
+  access_entries                           = {}
   enable_cluster_creator_admin_permissions = true
-  authentication_mode                   = "API_AND_CONFIG_MAP"
-  name                                  = var.name
-  vpc_id                                = module.vpc.vpc_id
-  environment                           = var.environment
-  kms_key_arn                           = module.kms.key_arn
-  cluster_version                       = var.cluster_version
-  cluster_log_types                     = var.cluster_log_types
-  vpc_private_subnet_ids                = module.vpc.private_subnets
-  cluster_log_retention_in_days         = var.cluster_log_retention_in_days
-  cluster_endpoint_public_access        = var.cluster_endpoint_public_access
-  cluster_endpoint_public_access_cidrs  = var.cluster_endpoint_public_access_cidrs
-  cluster_endpoint_private_access       = var.cluster_endpoint_private_access
-  nodes_keypair_name                    = module.key_pair_eks.key_pair_name
+  authentication_mode                      = "API_AND_CONFIG_MAP"
+  name                                     = var.name
+  vpc_id                                   = module.vpc.vpc_id
+  environment                              = var.environment
+  kms_key_arn                              = module.kms.key_arn
+  cluster_version                          = var.cluster_version
+  cluster_log_types                        = var.cluster_log_types
+  vpc_private_subnet_ids                   = module.vpc.private_subnets
+  cluster_log_retention_in_days            = var.cluster_log_retention_in_days
+  cluster_endpoint_public_access           = var.cluster_endpoint_public_access
+  cluster_endpoint_public_access_cidrs     = var.cluster_endpoint_public_access_cidrs
+  cluster_endpoint_private_access          = var.cluster_endpoint_private_access
+  nodes_keypair_name                       = module.key_pair_eks.key_pair_name
   cluster_security_group_additional_rules = {
     ingress_port_mgmt_tcp = {
       description = "mgmt vpc cidr"
