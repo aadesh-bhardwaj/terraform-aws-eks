@@ -194,8 +194,8 @@ variable "additional_aws_tags" {
   description = "Map of additional tags to apply to AWS resources"
   type        = map(string)
   default = {
-    Owner       = "Organization_name"
-    Expires     = "Never"
-    Department  = "Engineering"
+    Owner      = "Organization_name"
+    Expires    = "Never"
+    Department = "Engineering"
   }
 }
