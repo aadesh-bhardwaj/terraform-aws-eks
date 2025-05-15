@@ -133,7 +133,7 @@ module "vpc" {
   flow_log_max_aggregation_interval               = 60
   flow_log_cloudwatch_log_group_skip_destroy      = false
   flow_log_cloudwatch_log_group_retention_in_days = 90
-  flow_log_cloudwatch_log_group_kms_key_arn       = var.kms_key_arn
+  flow_log_cloudwatch_log_group_kms_key_arn       = var.kms_key_id
 }
 
 module "eks" {
@@ -146,7 +146,7 @@ module "eks" {
   name                                     = var.name
   vpc_id                                   = module.vpc.vpc_id
   environment                              = var.environment
-  kms_key_arn                              = var.kms_key_arn
+  kms_key_arn                              = var.kms_key_id
   cluster_version                          = var.cluster_version
   cluster_log_types                        = var.cluster_log_types
   vpc_private_subnet_ids                   = module.vpc.private_subnets
@@ -177,7 +177,7 @@ module "managed_node_group_addons" {
   managed_ng_min_size         = 2
   managed_ng_max_size         = 5
   managed_ng_desired_size     = 2
-  vpc_subnet_ids              = [module.vpc.private_subnets]
+  vpc_subnet_ids              = [module.vpc.private_subnets[0]]
   environment                 = var.environment
   managed_ng_kms_key_arn      = var.kms_key_arn
   managed_ng_capacity_type    = var.managed_ng_capacity_type
