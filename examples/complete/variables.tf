@@ -7,13 +7,13 @@ variable "region" {
 variable "environment" {
   description = "Deployment environment"
   type        = string
-  default     = "dev"
+  default     = "demo"
 }
 
 variable "name" {
   description = "Base name for resources"
   type        = string
-  default     = "sqops"
+  default     = "16-may"
 }
 
 variable "kms_deletion_window_in_days" {
@@ -197,7 +197,5 @@ variable "additional_aws_tags" {
     Owner       = "Organization_name"
     Expires     = "Never"
     Department  = "Engineering"
-    Product     = ""
-    Environment = var.environment
   }
 }

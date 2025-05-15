@@ -35,10 +35,10 @@ locals {
   vpc_intra_subnets_counts             = 2
   launch_template_name                 = "launch-template-name"
   additional_aws_tags = {
-    Owner       = "Organization_name"
+    Owner       = "Demo"
     Expires     = "Never"
     Department  = "Engineering"
-    Product     = ""
+    Product     = "Atmosly"
     Environment = local.environment
   }
   aws_managed_node_group_arch = "amd64" #Enter your linux arch (Example:- arm64 or amd64)
