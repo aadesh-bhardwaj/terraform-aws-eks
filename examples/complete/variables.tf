@@ -1,7 +1,7 @@
 variable "region" {
   description = "AWS region"
   type        = string
-  default     = "us-east-2"
+  default     = "ap-south-1"
 }
 
 variable "environment" {
@@ -20,18 +20,6 @@ variable "kms_deletion_window_in_days" {
   description = "KMS key deletion window"
   type        = number
   default     = 7
-}
-
-variable "kms_key_id" {
-  description = "KMS key arn"
-  type        = string
-  default     = "0050564d-cba6-4d49-9670-7354b7aa9944"
-}
-
-variable "kms_key_arn" {
-  description = "KMS key arn"
-  type        = string
-  default     = "arn:aws:kms:us-east-2:767398031518:key/0050564d-cba6-4d49-9670-7354b7aa9944"
 }
 
 variable "kms_key_rotation_enabled" {
