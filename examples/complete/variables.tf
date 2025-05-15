@@ -24,8 +24,8 @@ variable "kms_deletion_window_in_days" {
 
 variable "kms_key_arn" {
   description = "KMS key arn"
-  type        = number
-  default     = "arn:aws:kms:us-east-2:767398031518:key/0050564d-cba6-4d49-9670-7354b7aa9944"
+  type        = string
+  default     = "0050564d-cba6-4d49-9670-7354b7aa9944"
 }
 
 variable "kms_key_rotation_enabled" {
@@ -52,11 +52,6 @@ variable "kms_user" {
   default     = null
 }
 
-variable "vpc_cidr" {
-  description = "VPC CIDR block"
-  type        = string
-  default     = "10.10.0.0/16"
-}
 variable "vpc_cidr" {
   description = "VPC CIDR block"
   type        = string
