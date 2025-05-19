@@ -55,7 +55,7 @@ variable "vpc_cidr" {
 variable "vpc_availability_zones" {
   description = "List of AZs for the VPC"
   type        = list(string)
-  default     = ["us-east-2a", "us-east-2b"]
+  default     = ["ap-south-1a", "ap-south-1b"]
 }
 
 variable "vpc_public_subnet_enabled" {
@@ -175,7 +175,7 @@ variable "ebs_volume_size" {
 variable "launch_template_name" {
   description = "Name for the launch template"
   type        = string
-  default     = "lt-ba64d49967"
+  default     = "ba64d49967"
 }
 
 variable "aws_managed_node_group_arch" {
