@@ -16,13 +16,3 @@ provider "kubernetes" = {
     args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
   }
 }
-
-terraform {
-  required_version = ">= 1.0"
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "= 5.99.1"
-    }
-  }
-}
